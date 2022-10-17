@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React from "react";
 
-function CategoryFilter({categories}) {
-  const [isSelected, setButtonClass] = useState("All")
+function CategoryFilter({categories, filterName, setFilterButton}) {
+
   
   const toggleSelect = (category) => {
-    setButtonClass(category) 
+    setFilterButton(category) 
   }
 
 
   const renderButton = categories.map((category) => {
-    let className = isSelected === category ? "selected" : ""
+    let className = filterName === category ? "selected" : ""
     return <button key={category} onClick={() => toggleSelect(category)} className={className}>{category}</button>
   })
 
