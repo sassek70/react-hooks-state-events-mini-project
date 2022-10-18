@@ -12,6 +12,13 @@ function App() {
   //CATEGORIES = ARRAY
   //TASKS = OBJECT
   const [filterName, setFilterButton] = useState("All")
+  const [tasksList, setTasksList] = useState(TASKS)
+  
+  
+  const handleSubmit = (newTask) => {
+    setTasksList((taskslist) =>[...tasksList, newTask])  
+  }
+  console.log(tasksList)
 
 
 
@@ -19,8 +26,8 @@ function App() {
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter categories={CATEGORIES} filterName={filterName} setFilterButton={setFilterButton}/>
-      <NewTaskForm />
-      <TaskList tasks={TASKS} categories={CATEGORIES} filterName={filterName} setFilterButton={setFilterButton}/>
+      <NewTaskForm categories={CATEGORIES} onTaskFormSubmit={handleSubmit}/>
+      <TaskList tasks={tasksList} categories={CATEGORIES} filterName={filterName} setFilterButton={setFilterButton} onSetTasksList={setTasksList}/>
     </div>
   );
 }
