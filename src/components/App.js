@@ -1,33 +1,32 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
+
 import { CATEGORIES, TASKS } from "../data";
 // console.log("Here's the data you're working with");
-// console.log({ CATEGORIES, TASKS });
+
 
 function App() {
-  // console.log(CATEGORIES)
-  // console.log(TASKS)
-  //CATEGORIES = ARRAY
-  //TASKS = OBJECT
-  const [filterName, setFilterButton] = useState("All")
-  const [tasksList, setTasksList] = useState(TASKS)
-  
-  
-  const handleSubmit = (newTask) => {
-    setTasksList((taskslist) =>[...tasksList, newTask])  
+const [tasksList, setTaskLists] = useState(TASKS)
+const [selectedFilter, setSelectedFilter] = useState("All")
+
+  const handleDelete = (text) => {
+    const deletedTask = tasksList.filter((task) => text !== task.text  )
+   setTaskLists(deletedTask)
   }
-  console.log(tasksList)
 
-
+  const updateTasks = (newTaskItem) => {
+    // pass current state as an arguement, then spread and update state as an array since taskList is an array.
+    setTaskLists((tasksList) => [...tasksList, newTaskItem])
+  }
 
   return (
     <div className="App">
       <h2>My tasks</h2>
-      <CategoryFilter categories={CATEGORIES} filterName={filterName} setFilterButton={setFilterButton}/>
-      <NewTaskForm categories={CATEGORIES} onTaskFormSubmit={handleSubmit}/>
-      <TaskList tasks={tasksList} categories={CATEGORIES} filterName={filterName} setFilterButton={setFilterButton} onSetTasksList={setTasksList}/>
+      <CategoryFilter categories={CATEGORIES} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter}/>
+      <NewTaskForm categoryOptions={CATEGORIES} setNewTaskItem={updateTasks}/>
+      <TaskList tasks={tasksList} selectedFilter={selectedFilter} handleDelete={handleDelete}/>
     </div>
   );
 }

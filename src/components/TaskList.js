@@ -1,19 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import Task from "./Task";
 
-function TaskList({tasks, filterName, onSetTasksList}) {
+function TaskList({tasks, handleDelete, selectedFilter}) {
+ 
+  // To filter the list, I compare the state of selectedFilter to the default state of "All". If true, the variable
+  // filteredTaskList will be set to all tasks. Otherwise, it will be set to an array of tasks that match the value
+  // of selectedFilter state
+  const filteredTaskList = selectedFilter === "All" ? tasks: tasks.filter((task) => task.category === selectedFilter)
 
-  const handleDelete = (text) => {
-    const newList = tasks.filter((task) => task.text !== text)
-    onSetTasksList(newList)
-  }
-  
-  // applies the filter value then maps tasks to <Task />
-  const filteredList = tasks.filter((task) => (filterName === "All" || filterName === undefined ? "All" : task.category === filterName))
-  // shorter ternary = (!filterName || filterName === "All" ? "All" : task.category === filterName))
-  
-  const taskList = filteredList.map((task) => {
-    return <Task key={task.text} id={task.name} text={task.text} category={task.category} deleteTask={() => handleDelete(task.text)}/>
+  // taskList creates a map based on the array created by the filter conditional
+  const taskList = filteredTaskList.map((task) => {
+    const {text, category} = task
+    return <Task key={text} text={text} category={category} handleDelete={handleDelete}/>
   })
 
   return (
